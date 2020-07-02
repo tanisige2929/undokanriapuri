@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:id="@+id/calendarfragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="372dp"
+                android:layout_height="55dp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/calendartitle"
+                android:layout_width="408dp"
+                android:layout_height="49dp"
+                android:text="2020年6月"
+                android:textAlignment="center"
+                android:textSize="35sp"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.087" />
+
+            <TableLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="378dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="310dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.545"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="SUN"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="MON"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="TUE"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="WED"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="THU"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="FRI"
+                        android:textAlignment="center"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="SAT"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="24sp"
+                        android:typeface="monospace" />
+
+                </TableRow>
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/CalendarTable"
+                android:layout_width="379dp"
+                android:layout_height="375dp"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/c0"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c1"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c2"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c3"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c4"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c5"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c6"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/c7"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c8"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c9"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c10"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c11"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c12"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c13"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/c14"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c15"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c16"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c17"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c18"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c19"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c20"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/c21"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c22"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c23"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c24"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c25"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c26"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c27"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/c28"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c29"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c30"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c31"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c32"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c33"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c34"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/c35"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#F81909"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c36"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c37"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c38"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c39"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c40"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/c41"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:textAlignment="center"
+                        android:textColor="#2847F3"
+                        android:textSize="30sp"
+                        android:typeface="monospace" />
+
+                </TableRow>
+
+            </TableLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

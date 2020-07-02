@@ -1,0 +1,2 @@
+rootProject.name='運動管理アプリ'
+include ':app'
