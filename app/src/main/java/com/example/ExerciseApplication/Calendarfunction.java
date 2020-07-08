@@ -28,12 +28,13 @@ public class Calendarfunction extends AppCompatActivity {
     private int yearNow;
     private int monthNow;
     private int youbinow;
-    private int date;
+    private int day;
     private int year;
     private int month;
     private int youbi;
     //private int monthfirstyoubi;
     private int monthlastday;
+    private String yearmonth = "";
     private int page;
     //private TextView[] text;
     private Intent intent;
@@ -58,7 +59,7 @@ public class Calendarfunction extends AppCompatActivity {
         }
         calendar.set(Calendar.DATE, 1);
 
-        date = calendar.get(Calendar.DATE);
+        day = calendar.get(Calendar.DATE);
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         youbi = calendar.get(Calendar.DAY_OF_WEEK);
@@ -69,7 +70,7 @@ public class Calendarfunction extends AppCompatActivity {
         //System.out.println(monthfirstyoubi);
     }
 
-    public void CalendarSet(TextView[] text, TextView title) {
+    public String CalendarSet(TextView[] text, TextView title) {
 
         int i;
         int j = 1;
@@ -93,7 +94,9 @@ public class Calendarfunction extends AppCompatActivity {
             j++;
         }
         title.setText(year + "年" + (month + 1) + "月");
-
+        String monthstring = "" + month;
+        if(monthstring.length() == 1) monthstring = "0" + monthstring;
+        yearmonth = "" + year + "-" + monthstring + "-";
         /*for(j = k, i = l; j < monthlastday + 1; i++) {
             text[i].setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -114,7 +117,7 @@ public class Calendarfunction extends AppCompatActivity {
             j++;
         }*/
 
-        //return text;
+        return yearmonth;
     }
     /*public void CreateIntent() {
         for(int i = 0; i < text.length; i++) {
@@ -128,7 +131,7 @@ public class Calendarfunction extends AppCompatActivity {
         }
     }*/
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         for(Fragment fragment : getSupportFragmentManager().getFragments()) {
             if(fragment != null) {
@@ -141,5 +144,5 @@ public class Calendarfunction extends AppCompatActivity {
             }
         }
         super.onBackPressed();
-    }
+    }*/
 }
