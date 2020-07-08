@@ -10,4 +10,8 @@
     <string name="todaymenutitle">本日のメニュー</string>
     <string name="completemenu">完了したメニュー</string>
     <string name="calendarmenu">●月●日のメニュー</string>
+    <string name="daialogtitle1">運動メニューの登録</string>
+    <string name="dialogmessage">運動メニュー名を入力してね</string>
+    <string name="dialogok">決定</string>
+    <string name="dialogcancel">キャンセル</string>
 </resources>

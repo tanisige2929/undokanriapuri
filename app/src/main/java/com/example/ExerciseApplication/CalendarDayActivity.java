@@ -4,19 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.SimpleFormatter;
 
 public class CalendarDayActivity extends AppCompatActivity {
 
@@ -67,5 +68,16 @@ public class CalendarDayActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, data);
         ListView listView = (ListView)findViewById(R.id.listview);
         listView.setAdapter(adapter);
+
+        FloatingActionButton plusButton = findViewById(R.id.plusbutton);
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CalendarDialogFragment dialogfragment = new CalendarDialogFragment(CalendarDayActivity.this);
+                dialogfragment.show(getSupportFragmentManager(), "CalendarDialogFragment");
+            }
+        });
     }
+    /*private class ListItemClickListener implements AdapterView.OnItemClickListener {
+    }*/
 }
