@@ -94,7 +94,7 @@ public class Calendarfunction extends AppCompatActivity {
             j++;
         }
         title.setText(year + "年" + (month + 1) + "月");
-        String monthstring = "" + month;
+        String monthstring = "" + (month + 1);
         if(monthstring.length() == 1) monthstring = "0" + monthstring;
         yearmonth = "" + year + "-" + monthstring + "-";
         /*for(j = k, i = l; j < monthlastday + 1; i++) {

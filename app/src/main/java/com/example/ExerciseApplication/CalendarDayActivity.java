@@ -1,13 +1,13 @@
 package com.example.ExerciseApplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +30,7 @@ public class CalendarDayActivity extends AppCompatActivity {
     private ArrayList data = new ArrayList<>();
     private DatabaseHelper helper;
     private SQLiteDatabase db;
+    private int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,15 @@ public class CalendarDayActivity extends AppCompatActivity {
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CalendarDialogFragment dialogfragment = new CalendarDialogFragment(CalendarDayActivity.this);
-                dialogfragment.show(getSupportFragmentManager(), "CalendarDialogFragment");
+                //Fragment fragment = getSupportFragmentManager();
+                CalendarDialogFragment1 dialogfragment1 = new CalendarDialogFragment1(CalendarDayActivity.this);
+                dialogfragment1.show(getSupportFragmentManager(), "CalendarDialogFragment1");
+                flag = dialogfragment1.getFlag();
+                System.out.println(flag);
+                if(flag == 1) {
+                    CalendarDialogFragment2 dialogfragment2 = new CalendarDialogFragment2(CalendarDayActivity.this);
+                    dialogfragment2.show(getSupportFragmentManager(), "CalendarDialogFragment2");
+                }
             }
         });
     }
