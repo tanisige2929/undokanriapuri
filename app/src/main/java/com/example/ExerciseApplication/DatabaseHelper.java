@@ -15,12 +15,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        /*StringBuilder sb2=  new StringBuilder() ;
+        sb2.append("DROP TABLE ExerciseMenu");
+        String s = sb2.toString();
+        db.execSQL(s);*/
         StringBuilder sb = new StringBuilder();
-        sb.append("CREATE TABLE ExerciseMenu(");
-        sb.append("id int PRIMARY KEY AUTOINCREMENT");
-        sb.append("date DATE,");
-        sb.append("menu TEXT");
-        sb.append("complete BOOLEAN");
+        sb.append("CREATE TABLE ExerciseMenu (");
+        sb.append("_id INTEGER PRIMARY KEY AUTOINCREMENT,");
+        sb.append("date TEXT,");
+        sb.append("menu TEXT,");
+        sb.append("value TEXT,");
+        sb.append("unit TEXT,");
+        sb.append("complete INTEGER);");
         String sql = sb.toString();
 
         db.execSQL(sql);

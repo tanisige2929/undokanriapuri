@@ -7,30 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/todaymenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:text="@string/todaymenutitle"
+            android:textSize="35sp" />
 
-            <TextView
-                android:id="@+id/todaycompletemenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/completemenu"
-                android:textSize="35sp" />
+        <ListView
+            android:id="@+id/todaymenulist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/todaymenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/todaymenutitle"
-                android:textSize="35sp" />
-        </LinearLayout>
-    </ScrollView>
+        <TextView
+            android:id="@+id/todaycompletemenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/completemenu"
+            android:textSize="35sp" />
+
+        <ListView
+            android:id="@+id/tomorrowmenulist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"

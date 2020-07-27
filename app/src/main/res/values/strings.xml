@@ -10,11 +10,22 @@
     <string name="todaymenutitle">本日のメニュー</string>
     <string name="completemenu">完了したメニュー</string>
     <string name="calendarmenu">●月●日のメニュー</string>
-    <string name="dialogtitle1">運動メニューの登録</string>
-    <string name="dialogmessage1">運動メニュー名を入力してね</string>
-    <string name="dialogtitle2">運動メニューの回数・単位の登録</string>
-    <string name="dialogmessage2">単位入力 例：10km,30回など</string>
+    <string name="dialogtitle1">運動メニュー名の登録</string>
+    <string name="dialogmessage1">運動メニュー名を入力してください</string>
+    <string name="dialogtitle2">運動メニューの数値の登録</string>
+    <string name="dialogmessage2">数値を入力してください 例：5km→5,30回→30など</string>
+    <string name="dialogtitle3">数値の単位選択</string>
+    <string name="dialogmessage3">単位を選択してください</string>
     <string name="dialogok">決定</string>
     <string name="dialogcancel">キャンセル</string>
     <string name="dialogback">戻る</string>
+    <string name="dialognext">次へ</string>
+    <string name="unit1">回</string>
+    <string name="unit2">秒</string>
+    <string name="unit3">分</string>
+    <string name="unit4">時間</string>
+    <string name="unit5">m</string>
+    <string name="unit6">km</string>
+    <string name="hensyu">編集</string>
+    <string name="sakujo">削除</string>
 </resources>

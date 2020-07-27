@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuContexthenshu"
+        android:title="@string/hensyu"/>
+    <item
+        android:id="@+id/menuContextsakujo"
+        android:title="@string/sakujo"/>
+</menu>
