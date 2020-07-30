@@ -16,6 +16,7 @@
     <string name="dialogmessage2">数値を入力してください 例：5km→5,30回→30など</string>
     <string name="dialogtitle3">数値の単位選択</string>
     <string name="dialogmessage3">単位を選択してください</string>
+    <string name="dialogmessage4">選択したメニューを削除しますか？</string>
     <string name="dialogok">決定</string>
     <string name="dialogcancel">キャンセル</string>
     <string name="dialogback">戻る</string>
