@@ -1,19 +1,19 @@
 package com.example.ExerciseApplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Handler;
 import java.util.Locale;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView[] textcl = new TextView[42];
     private FragmentStatePagerAdapter f;
     private ViewPager viewpager;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //画面生成時
@@ -43,9 +44,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void nowScreenToDo() { //現在ToDoの時
 
-        //本日のメニュー
-        Intent intent = new Intent(MainActivity.this, TodayMenu.class);
-
+        //todo機能
+        final ListView listViewue = findViewById(R.id.todaymenulist);
+        ListView listViewsita = findViewById(R.id.todaycompletemenulist);
+        final todoFunction todaymenu = new todoFunction(MainActivity.this, listViewue, listViewsita);
+        todaymenu.todoDatabase(1, -1);
+        //listViewue.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listViewue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                todaymenu.todoDatabase(2, position);
+                todaymenu.adapterChange(parent.getItemAtPosition(position).toString());
+                //System.out.println(parent.getItemAtPosition(position).toString());
+                //adapter.notifyDataSetChanged();
+            }
+        });
 
         ImageButton button2 = findViewById(R.id.calendar);
         ImageButton button3 = findViewById(R.id.count);
