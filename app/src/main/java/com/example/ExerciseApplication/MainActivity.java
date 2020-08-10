@@ -4,31 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.os.Handler;
-import java.util.Locale;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String countfirst = "00:00.00";
-    private Timer timer;
-    private TimercountTask timercount;
-    private long count = 0, delay = 0, period = 10;
-    private TextView timerText, calendarTitle;
-    private boolean timerNow = true, calenderfirst = false;
-    private int countflag = -1;
-    private Handler handler;
     private Calendarfunction cl;
     private TextView[] textcl = new TextView[42];
     private FragmentStatePagerAdapter f;
@@ -60,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton button2 = findViewById(R.id.calendar);
-        ImageButton button3 = findViewById(R.id.count);
+        ImageButton button2 = findViewById(R.id.Calendar);
+        ImageButton button3 = findViewById(R.id.Timer);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //カレンダー画面に遷移
@@ -73,15 +60,15 @@ public class MainActivity extends AppCompatActivity {
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { //カウント画面に遷移
-                setContentView(R.layout.stopwatch);
+            public void onClick(View v) { //timer画面に遷移
+                setContentView(R.layout.timer);
                 nowScreenCount();
             }
         });
     }
     private void nowScreenCalendar() { //現在カレンダーの時
         ImageButton button1 = findViewById(R.id.ToDo);
-        ImageButton button3 = findViewById(R.id.count);
+        ImageButton button3 = findViewById(R.id.Timer);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //ToDo画面に遷移
@@ -92,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //カウント画面に遷移
-                setContentView(R.layout.stopwatch);
+                setContentView(R.layout.timer);
                 nowScreenCount();
             }
         });
@@ -122,8 +109,26 @@ public class MainActivity extends AppCompatActivity {
     }
     private void nowScreenCount() { //現在Countの時
         ImageButton button1 = findViewById(R.id.ToDo);
-        ImageButton button2 = findViewById(R.id.calendar);
-        timerText = findViewById(R.id.swcount);
+        ImageButton button2 = findViewById(R.id.Calendar);
+
+        ImageButton stopwatch = findViewById(R.id.stopwatchbutton);
+        ImageButton alarm = findViewById(R.id.alarmbuttton);
+
+        stopwatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, stopWatchActivity.class);
+                startActivity(intent);
+            }
+        });
+        alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                startActivity(intent);
+            }
+        });
+        /*timerText = findViewById(R.id.swcount);
         System.out.println(timerText.getText());
         Button start_stop = findViewById(R.id.swstartorstop);
         start_stop.setOnClickListener(new View.OnClickListener() { //スタートorストップを押したとき
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 Button start_stop = findViewById(R.id.swstartorstop);
                 resetTimer(start_stop);
             }
-        });
+        });*/
 
         button1.setOnClickListener(new View.OnClickListener() { //ボタン１を押したとき
             @Override
@@ -166,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void startTimer(Button button) { //タイマースタート
+    /*private void startTimer(Button button) { //タイマースタート
         if(countflag == -1) {
             timer = new Timer();
             handler = new Handler();
@@ -221,5 +226,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 }
