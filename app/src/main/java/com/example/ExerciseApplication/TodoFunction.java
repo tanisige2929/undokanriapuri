@@ -13,9 +13,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class todoFunction extends AppCompatActivity {
+public class TodoFunction extends AppCompatActivity {
     private Context context;
-    Calendar calendar;
+    private Calendar calendar;
     private String DayTitle;
     private String w;
     private int dateNow;
@@ -32,7 +32,7 @@ public class todoFunction extends AppCompatActivity {
     private ArrayAdapter adapterue;
     private ArrayAdapter adaptersita;
 
-    todoFunction(Context context, ListView listViewue, ListView listViewsita) {
+    TodoFunction(Context context, ListView listViewue, ListView listViewsita) {
         this.context = context;
         this.listViewue = listViewue;
         this.listViewsita = listViewsita;
@@ -56,9 +56,8 @@ public class todoFunction extends AppCompatActivity {
     }
 
     public void todoDatabase(int flag, int position) {
-        helper = new DatabaseHelper(this.context);
+        helper = new DatabaseHelper(context);
         db = helper.getWritableDatabase();
-        //adapterue = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_single_choice);
         if(flag == 1) {
             try {
                 String sql = "SELECT _id, menu, value, unit FROM ExerciseMenu WHERE date = '" + dayString + "' AND complete = -1";

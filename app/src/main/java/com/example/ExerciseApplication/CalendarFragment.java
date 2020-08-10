@@ -1,5 +1,6 @@
 package com.example.ExerciseApplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
 
-    private MainActivity mainactivity;
+    private Context context;
     private  int page;
     private Intent intent;
     private int month;
@@ -36,9 +37,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     private String yearmonthfirst;
     private TextView tw;
 
-    public CalendarFragment(MainActivity mainactivity, int page) {
+    public CalendarFragment(Context context, int page) {
         // Required empty public constructor
-        this.mainactivity = mainactivity;
+        this.context = context;
         this.page = page;
         System.out.println("page:" + page);
     }
@@ -88,12 +89,12 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
         String calendarViewname;
         for(int i = 0; i < textcl.length; i++) {
             calendarViewname = "c" + i;
-            clId = getResources().getIdentifier(calendarViewname, "id", mainactivity.getPackageName());
+            clId = getResources().getIdentifier(calendarViewname, "id", getActivity().getPackageName());
             textcl[i] = (TextView)view.findViewById(clId); //ID紐づけ
             //intent[i] = new Intent()
         }
         calendarTitle = (TextView)view.findViewById(R.id.calendartitle);
-        cl = new Calendarfunction(page, textcl);//二重処理？後で直す
+        cl = new Calendarfunction(page, context);//二重処理？後で直す
         yearmonth = cl.CalendarSet(textcl, calendarTitle);//ここまでカレンダー生成
         yearmonthfirst = yearmonth;
         //CreateDayFragment(textcl);

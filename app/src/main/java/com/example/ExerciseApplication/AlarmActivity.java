@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -11,6 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.net.URI;
+
+import static android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI;
 
 public class AlarmActivity extends AppCompatActivity {
 
@@ -40,6 +49,8 @@ public class AlarmActivity extends AppCompatActivity {
     private int minutevalue;
     private int secondvalue;
     private CountDown countdown;
+    private MediaPlayer player;
+    private Context context = this;
 
 
     @Override
@@ -55,7 +66,8 @@ public class AlarmActivity extends AppCompatActivity {
         pickerminute = findViewById(R.id.numberpickerminute);
         pickersecond = findViewById(R.id.numberpickersecond);
         pickerhour = findViewById(R.id.numberpickerhour);
-        am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        //am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         pickerminute.setMinValue(0);
         pickerminute.setMaxValue(59);
@@ -69,6 +81,7 @@ public class AlarmActivity extends AppCompatActivity {
         pickerhour.setDisplayedValues(hour);
 
 
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,10 +93,20 @@ public class AlarmActivity extends AppCompatActivity {
                 hourText.setVisibility(View.INVISIBLE);
                 timer.setVisibility(View.VISIBLE);
 
+
                 hourvalue = pickerhour.getValue();
                 minutevalue = pickerminute.getValue();
                 secondvalue = pickersecond.getValue();
                 count = (hourvalue * 3600 + minutevalue * 60 + secondvalue) * 1000;
+                player = new MediaPlayer();
+                try {
+                    player.setAudioStreamType(AudioManager.STREAM_ALARM);
+                    player.setDataSource(context, DEFAULT_ALARM_ALERT_URI);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 if(!timerNow) {
                     startTimer(start);
                 }
@@ -99,6 +122,9 @@ public class AlarmActivity extends AppCompatActivity {
                 secondText.setVisibility(View.VISIBLE);
                 hourText.setVisibility(View.VISIBLE);
                 timer.setVisibility(View.INVISIBLE);
+
+                resetTimer(reset);
+                player.stop();
             }
         });
         //picker.setDisplayedValues();
@@ -110,6 +136,12 @@ public class AlarmActivity extends AppCompatActivity {
         timerNow = true;
         countdown = new CountDown(count, period);
         countdown.start();
+    }
+    private void resetTimer(Button button) {
+        timerNow = false;
+        if(countdown != null) {
+            countdown.cancel();
+        }
     }
     class CountDown extends CountDownTimer {
 
@@ -123,6 +155,7 @@ public class AlarmActivity extends AppCompatActivity {
             long m = millisUntilFinished / 1000 / 60 % 60;
             long s = millisUntilFinished / 1000 % 60;
             //long ms = millisUntilFinished - ss * 1000 - mm * 1000 * 60;
+            System.out.println("test");
             timer.setText(String.format("%1$02d:%2$02d:%3$02d", h, m, s));
         }
 
@@ -131,6 +164,14 @@ public class AlarmActivity extends AppCompatActivity {
             countdown.cancel();
             timerNow = false;
             timer.setText("00:00:00");
+            try {
+                player.prepare();
+                player.start();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

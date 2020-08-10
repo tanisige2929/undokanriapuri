@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/navi_todo">
+
+    <fragment android:id="@+id/navi_todo"
+        android:name="com.example.ExerciseApplication.TodoFragment"
+        android:label="TODO"/>
+
+    <fragment android:id="@+id/navi_calendar"
+        android:name="com.example.ExerciseApplication.calendarDisplayFragment"
+        android:label="カレンダー"/>
+
+    <fragment android:id="@+id/navi_timer"
+        android:name="com.example.ExerciseApplication.TimerFragment"
+        android:label="タイマー"/>
+
+</navigation>

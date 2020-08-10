@@ -2,17 +2,20 @@ package com.example.ExerciseApplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageButton;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,14 +28,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) { //画面生成時
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.todo);
-        nowScreenToDo();
+        setContentView(R.layout.activity_main);
+        NavController navcontroller = Navigation.findNavController(this, R.id.nav_host_fragment);
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(navigation, navcontroller);
+        /*viewpager = findViewById(R.id.pager);
+        viewpager.setAdapter(new FragmentCalendarAdapter(getSupportFragmentManager(), MainActivity.this));
+        viewpager.setCurrentItem(10);*/
+        //nowScreenToDo();
     }
 
     private void nowScreenToDo() { //現在ToDoの時
 
         //todo機能
-        final ListView listViewue = findViewById(R.id.todaymenulist);
+        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        //NavigationUI.setupWithNavController(R.id.bottom_navigation);
+        /*final ListView listViewue = findViewById(R.id.todaymenulist);
         ListView listViewsita = findViewById(R.id.todaycompletemenulist);
         final todoFunction todaymenu = new todoFunction(MainActivity.this, listViewue, listViewsita);
         todaymenu.todoDatabase(1, -1);
@@ -48,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ImageButton button2 = findViewById(R.id.Calendar);
-        ImageButton button3 = findViewById(R.id.Timer);
-        button2.setOnClickListener(new View.OnClickListener() {
+        ImageButton button3 = findViewById(R.id.Timer);*/
+        /*button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //カレンダー画面に遷移
                 setContentView(R.layout.calendar);
@@ -64,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 setContentView(R.layout.timer);
                 nowScreenCount();
             }
-        });
+        });*/
     }
     private void nowScreenCalendar() { //現在カレンダーの時
         ImageButton button1 = findViewById(R.id.ToDo);
@@ -72,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //ToDo画面に遷移
-                setContentView(R.layout.todo);
+                setContentView(R.layout.activity_main);
                 nowScreenToDo();
             }
         });
@@ -87,25 +98,8 @@ public class MainActivity extends AppCompatActivity {
         //if(!calenderfirst) {//カレンダー画面に初めて来たか？
             int clId;
             String calendarViewname;
-            /*for(int i = 0; i < textcl.length; i++) {
-                calendarViewname = "c" + i;
-                clId = getResources().getIdentifier(calendarViewname, "id", getPackageName());
-                //textcl[i] = findViewById(clId); //ID紐づけ
-            }*/
-            viewpager = (ViewPager) findViewById(R.id.pager);
-            viewpager.setAdapter(new FragmentCalendarAdapter(getSupportFragmentManager(), MainActivity.this));
-            viewpager.setCurrentItem(10);
-            //calendarTitle = findViewById(R.id.calendartitle);
-            //cl = new Calendarfunction();
-            //calenderfirst = true;
-        //}
-        //cl.CalendarSet(textcl, calendarTitle);
-        /*FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        CalendarDayPlansFragment cdp = new CalendarDayPlansFragment();
-        transaction.replace(R.id.CalendarDayFragment, cdp, " a");
-        transaction.addToBackStack(null);
-        transaction.commit();*/
+
+
     }
     private void nowScreenCount() { //現在Countの時
         ImageButton button1 = findViewById(R.id.ToDo);
@@ -156,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() { //ボタン１を押したとき
             @Override
             public void onClick(View v) { //ToDo画面に遷移
-                setContentView(R.layout.todo);
+                setContentView(R.layout.activity_main);
                 nowScreenToDo();
             }
         });
@@ -164,67 +158,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { //カレンダー画面に遷移
                 setContentView(R.layout.calendar);
-                //viewpager = (ViewPager) findViewById(R.id.pager);
-                //viewpager.setAdapter(new FragmentCalendarAdapter(getSupportFragmentManager()));
                 nowScreenCalendar();
             }
         });
     }
 
-    /*private void startTimer(Button button) { //タイマースタート
-        if(countflag == -1) {
-            timer = new Timer();
-            handler = new Handler();
-            countflag = 1;
-        }
-        timercount = new TimercountTask();
-        timer.schedule(timercount, delay, period);
-        button.setText(R.string.stop);
-        timerNow = false;
-    }
-
-    private void pauseTimer(Button button) { //タイマーストップ
-        timercount.cancel();
-        //count = timercount.getCount();
-        button.setText(R.string.restart);
-        timerNow = true;
-    }
-
-    private void resetTimer(Button button) { //タイマーリセット
-        if(timer != null) {
-            timer.cancel();
-            timer = null;
-            //timercount.cancel();
-            countflag = -1;
-            button.setText(R.string.start);
-            count = 0;
-        }
-        timerText.setText(String.format(Locale.US, countfirst));
-        //timerText.invalidate();
-        System.out.println(timerText.getText());
-        timerNow = true;
-    }
-
-    class TimercountTask extends TimerTask { //タイマー処理
-
-        @Override
-        public void run() {
-            handler.post(new Runnable() {
-                public void run() {
-                    if (timer != null) {
-                        count++;
-                        long h = count / 100 / 3600;
-                        long m = count / 100 / 60 % 60;
-                        long s = count / 100 % 60;
-                        long ps = count % 100;
-                        if (h >= 1) {
-                            timerText.setText(String.format(Locale.US, "%02d:%02d:%02d", h, m, s));
-                        } else {
-                            timerText.setText(String.format(Locale.US, "%02d:%02d.%02d", m, s, ps));
-                        }
-                    }
-                }
-            });
-        }
-    }*/
 }

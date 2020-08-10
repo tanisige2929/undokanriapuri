@@ -1,5 +1,6 @@
 package com.example.ExerciseApplication;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -36,8 +37,10 @@ public class Calendarfunction extends AppCompatActivity {
     private String yearmonth = "";
     private int page;
     private Intent intent;
+    private Context context;
 
-    Calendarfunction(int page, TextView[] text) {
+    Calendarfunction(int page, Context context) {
+        this.context = context;
         this.page = page;
         //this.text = text;
         calendar = Calendar.getInstance();
