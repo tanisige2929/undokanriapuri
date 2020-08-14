@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link calendarDisplayFragment#newInstance} factory method to
+ * Use the {@link CalendarDisplayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class calendarDisplayFragment extends Fragment {
+public class CalendarDisplayFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +27,7 @@ public class calendarDisplayFragment extends Fragment {
 
     private ViewPager viewpager;
 
-    public calendarDisplayFragment() {
+    public CalendarDisplayFragment() {
         // Required empty public constructor
     }
 
@@ -40,8 +40,8 @@ public class calendarDisplayFragment extends Fragment {
      * @return A new instance of fragment calendarDisplayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static calendarDisplayFragment newInstance(String param1, String param2) {
-        calendarDisplayFragment fragment = new calendarDisplayFragment();
+    public static CalendarDisplayFragment newInstance(String param1, String param2) {
+        CalendarDisplayFragment fragment = new CalendarDisplayFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

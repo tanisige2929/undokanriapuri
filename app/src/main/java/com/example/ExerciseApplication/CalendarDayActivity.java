@@ -13,6 +13,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -61,7 +62,6 @@ public class CalendarDayActivity extends AppCompatActivity{
     private int henshuflag = -1;
     private int listPosition;
     private int datasetflag = -1;
-    //private String menuhoge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +69,6 @@ public class CalendarDayActivity extends AppCompatActivity{
         intent = getIntent();
         context = this;
         setDisplay();
-        //setContentView(R.layout.activity_calendar_day);
-
-
-
-        //TextView title = (TextView)findViewById(R.id.daymenutitle);
-        //TextView nomenu = (TextView)findViewById(R.id.NoMenu);
-        //nomenu.setVisibility(View.INVISIBLE);
-        //if(nomenu.)
-
-        //title.setText(month + "月" + day + "日のメニュー");//ここまで初期画面
 
         datasetflag = 0;
         databaseAction(2);
@@ -116,6 +106,7 @@ public class CalendarDayActivity extends AppCompatActivity{
         else if(flag == 2){
             final EditText editText = new EditText(CalendarDayActivity.this);
             editText.setGravity(1);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             builder.setTitle(title).setMessage(message);
             builder.setView(editText);
             builder.setPositiveButton(ok, new DialogInterface.OnClickListener() {
@@ -193,6 +184,7 @@ public class CalendarDayActivity extends AppCompatActivity{
             });
         }
         alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
     private List<String> makeDataList() {

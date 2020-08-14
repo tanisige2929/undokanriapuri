@@ -1,5 +1,6 @@
 package com.example.ExerciseApplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
@@ -94,6 +95,7 @@ public class AlarmActivity extends AppCompatActivity {
                 timer.setVisibility(View.VISIBLE);
 
 
+
                 hourvalue = pickerhour.getValue();
                 minutevalue = pickerminute.getValue();
                 secondvalue = pickersecond.getValue();
@@ -110,6 +112,7 @@ public class AlarmActivity extends AppCompatActivity {
                 if(!timerNow) {
                     startTimer(start);
                 }
+
             }
         });
         reset.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +157,6 @@ public class AlarmActivity extends AppCompatActivity {
             long h =  millisUntilFinished / 1000 / 3600;
             long m = millisUntilFinished / 1000 / 60 % 60;
             long s = millisUntilFinished / 1000 % 60;
-            //long ms = millisUntilFinished - ss * 1000 - mm * 1000 * 60;
-            System.out.println("test");
             timer.setText(String.format("%1$02d:%2$02d:%3$02d", h, m, s));
         }
 

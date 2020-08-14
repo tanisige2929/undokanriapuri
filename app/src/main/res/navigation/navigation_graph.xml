@@ -9,7 +9,7 @@
         android:label="TODO"/>
 
     <fragment android:id="@+id/navi_calendar"
-        android:name="com.example.ExerciseApplication.calendarDisplayFragment"
+        android:name="com.example.ExerciseApplication.CalendarDisplayFragment"
         android:label="カレンダー"/>
 
     <fragment android:id="@+id/navi_timer"

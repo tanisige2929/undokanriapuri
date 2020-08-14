@@ -32,10 +32,20 @@
     <string name="timerselect">タイマーを選択してください</string>
     <string name="stopWatch">ストップ\nウォッチ</string>
     <string name="alarm">アラーム</string>
+    <string name="interval">インターバル</string>
     <string name="countdownCancel">キャンセル</string>
     <string name="countdownStart">スタート</string>
     <string name="countdownReset">リセット</string>
+    <string name="set">セット</string>
     <string name="save">保存</string>
+    <string name="intervalmessage">運動時間と、繰り返すセット数を\n指定してください</string>
+    <string name="alarmmessage">時間を指定してください</string>
+    <string name="ok">決定</string>
+    <string name="cancel">キャンセル</string>
+    <string name="intervaljoutai1">運動中</string>
+    <string name="intervaljoutai2">休憩中</string>
+    <string name="intervaljoutei3">終了</string>
+    <string name="intervalDialogmessage">休憩時間を指定してください</string>
     <string-array name="countdownminuteandsekondlist">
         <item>1</item>
         <item>2</item>

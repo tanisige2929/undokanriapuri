@@ -64,11 +64,12 @@ public class TimerFragment extends Fragment {
         // Inflate the layout for this fragment
         ImageButton stopwatch = view.findViewById(R.id.stopwatchbutton);
         ImageButton alarm = view.findViewById(R.id.alarmbuttton);
+        ImageButton interval = view.findViewById(R.id.intervalButton);
 
         stopwatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), stopWatchActivity.class);
+                Intent intent = new Intent(getActivity(), StopWatchActivity.class);
                 startActivity(intent);
             }
         });
@@ -79,6 +80,14 @@ public class TimerFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        interval.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), IntervalActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 }
