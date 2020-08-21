@@ -10,17 +10,23 @@
     <string name="todaymenutitle">本日のメニュー</string>
     <string name="completemenu">完了したメニュー</string>
     <string name="calendarmenu">●月●日のメニュー</string>
-    <string name="dialogtitle1">運動メニュー名の登録</string>
-    <string name="dialogmessage1">運動メニュー名を入力してください</string>
-    <string name="dialogtitle2">運動メニューの数値の登録</string>
-    <string name="dialogmessage2">数値を入力してください 例：5km→5,30回→30など</string>
-    <string name="dialogtitle3">数値の単位選択</string>
-    <string name="dialogmessage3">単位を選択してください</string>
-    <string name="dialogmessage4">選択したメニューを削除しますか？</string>
+    <string name="calendarmessage">日付を選択してください</string>
+    <string name="dialogtitle">運動メニューの登録</string>
+    <string name="dialogmessage">各項目を入力してください</string>
+    <string name="dialogtitle2">運動メニューの削除</string>
+    <string name="dialogmessage2">選択したメニューを削除しますか？</string>
+    <string name="dialogtouroku">登録</string>
     <string name="dialogok">決定</string>
     <string name="dialogcancel">キャンセル</string>
     <string name="dialogback">戻る</string>
     <string name="dialognext">次へ</string>
+    <string name="jisseki">実績が存在しません</string>
+    <string-array name="unitlist">
+        <item>回</item>
+        <item>秒</item>
+        <item>分</item>
+        <item>㍍(m)</item>
+    </string-array>
     <string name="unit1">回</string>
     <string name="unit2">秒</string>
     <string name="unit3">分</string>
@@ -46,80 +52,10 @@
     <string name="intervaljoutai2">休憩中</string>
     <string name="intervaljoutei3">終了</string>
     <string name="intervalDialogmessage">休憩時間を指定してください</string>
-    <string-array name="countdownminuteandsekondlist">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-        <item>15</item>
-        <item>16</item>
-        <item>17</item>
-        <item>18</item>
-        <item>19</item>
-        <item>20</item>
-        <item>21</item>
-        <item>22</item>
-        <item>23</item>
-        <item>24</item>
-        <item>25</item>
-        <item>26</item>
-        <item>27</item>
-        <item>28</item>
-        <item>29</item>
-        <item>30</item>
-        <item>31</item>
-        <item>32</item>
-        <item>33</item>
-        <item>34</item>
-        <item>35</item>
-        <item>36</item>
-        <item>37</item>
-        <item>38</item>
-        <item>39</item>
-        <item>40</item>
-        <item>41</item>
-        <item>42</item>
-        <item>43</item>
-        <item>44</item>
-        <item>45</item>
-        <item>46</item>
-        <item>47</item>
-        <item>48</item>
-        <item>49</item>
-        <item>50</item>
-        <item>51</item>
-        <item>52</item>
-        <item>53</item>
-        <item>54</item>
-        <item>55</item>
-        <item>56</item>
-        <item>57</item>
-        <item>58</item>
-        <item>59</item>
-        <item>60</item>
-    </string-array>
-    <string-array name="countdownhourist">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
+    <string name="Exercisemenuname">運動名</string>
+    <string name="Exercisemenuvalue">数値  </string>
+    <string name="Exercisemenuunit">単位  </string>
+    <string name="Execisekeikoku">空欄があります\n再度入力してください</string>
     <string name="minute">分</string>
     <string name="second">秒</string>
     <string name="hour">時間</string>

@@ -3,13 +3,14 @@ package com.example.ExerciseApplication;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -67,7 +68,6 @@ public class TodoFunction extends AppCompatActivity {
                 String value = "";
                 String unit = "";
                 idList = new ArrayList<>();
-
                 while(cursor.moveToNext()) {
                     int idxNote;
                     idxNote = cursor.getColumnIndex("_id");
@@ -79,15 +79,18 @@ public class TodoFunction extends AppCompatActivity {
                     idxNote = cursor.getColumnIndex("unit");
                     unit = cursor.getString(idxNote);
                     idList.add(id);
-                    //System.out.println(idList);
                     itemue.add("" + menu + " " + value + unit);
-                    //adapter.notifyDataSetChanged();
-                    //listViewue.setAdapter(adapterue);
                     System.out.println(itemue);
                 }
-                adapterue = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_single_choice, itemue);
+                adapterue = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_single_choice, itemue) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView view = (TextView)super.getView(position, convertView, parent);
+                        view.setTextSize(20);
+                        return view;
+                    }
+                };
                 listViewue.setAdapter(adapterue);
-                //adaptersita = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_single_choice);
                 sql = "SELECT _id, menu, value, unit FROM ExerciseMenu WHERE date = '" + dayString + "' AND complete = 1";
                 cursor = db.rawQuery(sql, null);
                 menu = "";
@@ -103,14 +106,17 @@ public class TodoFunction extends AppCompatActivity {
                     value = cursor.getString(idxNote);
                     idxNote = cursor.getColumnIndex("unit");
                     unit = cursor.getString(idxNote);
-                    //idList.add(id);
-                    //System.out.println(idList);
                     itemsita.add("" + menu + " " + value + unit);
                     System.out.println(itemsita);
-                    //adapter.notifyDataSetChanged();
-                    //listViewsita.setAdapter(adaptersita);
                 }
-                adaptersita = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, itemsita);
+                adaptersita = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, itemsita) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView view = (TextView)super.getView(position, convertView, parent);
+                        view.setTextSize(20);
+                        return view;
+                    }
+                };
                 listViewsita.setAdapter(adaptersita);
             }
             finally {
@@ -126,7 +132,6 @@ public class TodoFunction extends AppCompatActivity {
                 db.close();
             }
         }
-       // return adapter;
     }
     public void adapterChange(String w) {
         adapterue.remove(w);

@@ -1,27 +1,12 @@
 package com.example.ExerciseApplication;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.view.View;
-import android.widget.TextView;
-import android.app.Activity;
-import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.time.*;
 
 public class Calendarfunction extends AppCompatActivity {
     Calendar calendar;
@@ -42,13 +27,11 @@ public class Calendarfunction extends AppCompatActivity {
     Calendarfunction(int page, Context context) {
         this.context = context;
         this.page = page;
-        //this.text = text;
         calendar = Calendar.getInstance();
         youbinow = calendar.get(Calendar.DAY_OF_WEEK);
         dateNow = calendar.get(Calendar.DATE);
         yearNow = calendar.get(Calendar.YEAR);
         monthNow = calendar.get(Calendar.MONTH);
-        System.out.println("month:" + month);
         if(page - 10 < 0) {
             calendar.set(Calendar.MONTH, monthNow - (page - 10) * -1);
         }
@@ -68,7 +51,6 @@ public class Calendarfunction extends AppCompatActivity {
         int i;
         int j = 1;
         for(i = 0; i < youbi - 1; i++) {
-            //System.out.println("test:" + i);
             text[i].setText(" ");//一日まで空白で埋める
         }
         monthlastday = calendar.getActualMaximum(calendar.DAY_OF_MONTH); //当月の最大日数取得

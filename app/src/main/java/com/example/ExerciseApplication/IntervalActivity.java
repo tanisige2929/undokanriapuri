@@ -175,13 +175,16 @@ public class IntervalActivity extends AppCompatActivity {
         });
     }
     private void startTimer(Button button) { //タイマースタート
+        start.setClickable(false);
         cnt = 0;
         countflag = false;
         timerNow = true;
         countdown = new CountDown(4000, period, true);
+        timer.setTextColor(Color.BLACK);
         countdown.start();
     }
     private void resetTimer(Button button) {
+        start.setClickable(true);
         timerNow = false;
         if(countdown != null) {
             countdown.cancel();

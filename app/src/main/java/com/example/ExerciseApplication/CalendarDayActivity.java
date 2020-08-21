@@ -2,29 +2,25 @@ package com.example.ExerciseApplication;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.SQLException;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
+
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,27 +28,20 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public class CalendarDayActivity extends AppCompatActivity{
 
     private String DayTitle;
     private Intent intent;
-    private String year;
-    private String month;
-    private String day;
-    //private String date;
-    //private int flag = 0;
+    private String yearSelected;
+    private String monthSelected;
+    private String daySelected;
     private List<String> list;
     private ArrayAdapter<String> adapterUnit;
     private ArrayList idList;
-    private int selectedIndex = 0;
     private Context context;
     private AlertDialog alertDialog;
     private String menuname = "";
@@ -62,102 +51,90 @@ public class CalendarDayActivity extends AppCompatActivity{
     private int henshuflag = -1;
     private int listPosition;
     private int datasetflag = -1;
+    private boolean keikokuflag = false;
+    private Calendar calendar;
+    private int dayNow;
+    private int yearNow;
+    private int monthNow;
+    private int Today;
+    private int w;
+    private TextView nomenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         intent = getIntent();
         context = this;
+        calendar = Calendar.getInstance();
+        dayNow = calendar.get(Calendar.DATE);
+        yearNow = calendar.get(Calendar.YEAR);
+        monthNow = calendar.get(Calendar.MONTH) + 1;
+        Today += yearNow * 10000 + monthNow * 100 + dayNow;
         setDisplay();
-
         datasetflag = 0;
         databaseAction(2);
         if(idList.size() != 0) {
-            TextView nomenu = (TextView)findViewById(R.id.NoMenu);
             nomenu.setVisibility(View.INVISIBLE);
         }
-        adapterUnit = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, list);
+        adapterUnit = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, list) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView view = (TextView)super.getView(position, convertView, parent);
+                view.setTextSize(20);
+                return view;
+            }
+        };
 
 
     }
     public void makeDialog(int title, int message, int ok, int cancel, int flag) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CalendarDayActivity.this);
         if(flag == 1) {
-            final EditText editText = new EditText(CalendarDayActivity.this);
-            editText.setGravity(1);
-            builder.setTitle(title).setMessage(message);
-            builder.setView(editText);
+            LayoutInflater layoutInflater = LayoutInflater.from(CalendarDayActivity.this);
+            final View inputView = layoutInflater.inflate(R.layout.calendarmenudialog, null);
+            final EditText editText1 = inputView.findViewById(R.id.input1);
+            final EditText editText2 = inputView.findViewById(R.id.input2);
+            final Spinner spinner = inputView.findViewById(R.id.spinner);
+            TextView keikoku = inputView.findViewById(R.id.keikoku);
+            if(keikokuflag) {
+                keikoku.setVisibility(View.VISIBLE);
+                keikokuflag = false;
+            }
+            builder.setTitle(title).setView(inputView);
             builder.setPositiveButton(ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    menuname = editText.getText().toString();
-                    //System.out.println(menuname);
-                    makeDialog(R.string.dialogtitle1, R.string.dialogmessage2, R.string.dialognext, R.string.dialogcancel, 2);
-                }
-            });
-            builder.setNeutralButton(cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "キャンセルしました", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
-        else if(flag == 2){
-            final EditText editText = new EditText(CalendarDayActivity.this);
-            editText.setGravity(1);
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-            builder.setTitle(title).setMessage(message);
-            builder.setView(editText);
-            builder.setPositiveButton(ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    menuvalue = editText.getText().toString();
-                    //System.out.println(menuvalue);
-                    makeDialog(R.string.dialogtitle1, R.string.dialogmessage3, R.string.dialogok, R.string.dialogcancel, 3);
-                }
-            });
-            builder.setNeutralButton(cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "キャンセルしました", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        else if (flag == 3){
-            builder.setTitle(title);
-            builder.setSingleChoiceItems(adapterUnit, selectedIndex, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int index) {
-                    selectedIndex = index;
-                    menuunit = adapterUnit.getItem(index);
-                }
-            });
-            builder.setPositiveButton(ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(henshuflag == -1) {
-                        databaseAction(1);
-                        Toast.makeText(getApplicationContext(), "登録が完了しました", Toast.LENGTH_SHORT).show();
-                        datasetflag = 0;
-                        TextView nomenu = (TextView)findViewById(R.id.NoMenu);
-                        nomenu.setVisibility(View.INVISIBLE);
+                    menuname = editText1.getText().toString();
+                    menuvalue = editText2.getText().toString();
+                    int idx = spinner.getSelectedItemPosition();
+                    menuunit = spinner.getSelectedItem().toString();
+                    if (menuname.equals("") || menuvalue.equals("")) {
+                        keikokuflag = true;
+                        makeDialog(R.string.dialogtitle, R.string.dialogmessage, R.string.dialognext, R.string.dialogcancel, 1);
+                        ;
+                    } else {
+                        if (henshuflag == -1) {
+                            databaseAction(1);
+                            Toast.makeText(getApplicationContext(), "登録が完了しました", Toast.LENGTH_SHORT).show();
+                            datasetflag = 0;
+                            TextView nomenu = (TextView) findViewById(R.id.NoMenu);
+                            nomenu.setVisibility(View.INVISIBLE);
+                        } else {
+                            databaseAction(3);
+                            Toast.makeText(getApplicationContext(), "編集が完了しました", Toast.LENGTH_SHORT).show();
+                            henshuflag = -1;
+                            datasetflag = -1;
+                        }
+                        databaseAction(2);
+                        alertDialog.dismiss();
                     }
-                    else {
-                        databaseAction(3);
-                        Toast.makeText(getApplicationContext(), "編集が完了しました", Toast.LENGTH_SHORT).show();
-                        henshuflag = -1;
-                        datasetflag = -1;
-                    }
-                    databaseAction(2);
-                    alertDialog.dismiss();
                 }
             });
             builder.setNeutralButton(cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(), "キャンセルしました", Toast.LENGTH_SHORT).show();
-                }
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "キャンセルしました", Toast.LENGTH_SHORT).show();
+                        }
             });
         }
         else {
@@ -187,19 +164,9 @@ public class CalendarDayActivity extends AppCompatActivity{
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
-    private List<String> makeDataList() {
-        List<String> list = new ArrayList<String>();
-        list.add("回");
-        list.add("秒");
-        list.add("分");
-        //list.add("時間");
-        list.add("m（㍍）");
-        return  list;
-    }
     public void databaseAction(int flag) {
         DatabaseHelper helper = new DatabaseHelper(CalendarDayActivity.this);
         SQLiteDatabase db = helper.getWritableDatabase();
-        //System.out.println(DayTitle + menuname + menuvalue + menuunit);
         if(flag == 1) {
             try {
                 String sqlInsert = "INSERT INTO Exercisemenu (date, menu, value, unit, complete) VALUES (?, ?, ?, ?, ?)";
@@ -223,9 +190,15 @@ public class CalendarDayActivity extends AppCompatActivity{
                 String menu = "";
                 String value = "";
                 String unit = "";
-                //ListView listView = findViewById(R.id.listview);
                 idList = new ArrayList<>();
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        TextView view = (TextView)super.getView(position, convertView, parent);
+                        view.setTextSize(20);
+                        return view;
+                    }
+                };
                 while(cursor.moveToNext()) {
                     int idxNote;
                     idxNote = cursor.getColumnIndex("_id");
@@ -238,10 +211,7 @@ public class CalendarDayActivity extends AppCompatActivity{
                     unit = cursor.getString(idxNote);
                     idList.add(id);
                     System.out.println(idList);
-                    //datasetflag = -1;
-                    //System.out.println(menu + value + unit + "faoirwoarwa");
                     adapter.add("" + menu + " " + value + unit);
-                    //System.out.println(adapter);
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                 }
@@ -254,7 +224,6 @@ public class CalendarDayActivity extends AppCompatActivity{
         }
         else if(flag == 3) {
             try {
-                //System.out.println(menuname + menuvalue + menuunit + idList.get(listPosition));
                 String sqlUpdate = "UPDATE Exercisemenu SET menu = '" + menuname + "', value = '" + menuvalue + "', unit = '" + menuunit + "' WHERE _id = " + idList.get(listPosition);
                 db.execSQL(sqlUpdate);
             }
@@ -264,12 +233,8 @@ public class CalendarDayActivity extends AppCompatActivity{
         }
         else {
             try {
-                //adapterUnit.notifyDataSetChanged();
                 String sqlDelete = "DELETE FROM Exercisemenu WHERE _id = " + idList.get(listPosition);
                 db.execSQL(sqlDelete);
-                //setContentView(R.layout.activity_calendar_day);
-                //idList.remove(listPosition);
-                //System.out.println("unou" + idList + " " + idList.get(listPosition));
             }
             finally {
                 db.close();
@@ -288,38 +253,44 @@ public class CalendarDayActivity extends AppCompatActivity{
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         listPosition = info.position;
-        //menuhoge = listView.getItemAtPosition(listPosition).toString();
         System.out.println("position" + listPosition);
-        //Map<String, Object> menu = listView.get(listPosition);
         int itemId = item.getItemId();
         switch (itemId) {
             case R.id.menuContexthenshu:
                 henshuflag = 1;
-                makeDialog(R.string.dialogtitle1, R.string.dialogmessage1, R.string.dialognext, R.string.dialogcancel, 1);
+                makeDialog(R.string.dialogtitle, R.string.dialogmessage, R.string.dialogtouroku, R.string.dialogcancel, 1);
                 break;
             case R.id.menuContextsakujo:
-                makeDialog(0, R.string.dialogmessage4, R.string.dialogok, R.string.dialogcancel, 4);
-                //adapter.notifyDataSetChanged();
+                makeDialog(0, R.string.dialogmessage2, R.string.dialogok, R.string.dialogcancel, 2);
                 break;
         }
         return super.onContextItemSelected(item);
     }
     public void setDisplay() {
         setContentView(R.layout.activity_calendar_day);
-        list = makeDataList();
+        nomenu = (TextView)findViewById(R.id.NoMenu);
+        FloatingActionButton plusButton = findViewById(R.id.plusbutton);
         listView = findViewById(R.id.listview);
         TextView title = (TextView)findViewById(R.id.daymenutitle);
         DayTitle = intent.getStringExtra("key");
-        year = DayTitle.substring(0, 4);
-        month = DayTitle.substring(5, 7);
-        day = DayTitle.substring(8, 10);
-        title.setText(month + "月" + day + "日のメニュー");//ここまで初期画面
-        FloatingActionButton plusButton = findViewById(R.id.plusbutton);
-
+        yearSelected = DayTitle.substring(0, 4);
+        monthSelected = DayTitle.substring(5, 7);
+        daySelected = DayTitle.substring(8, 10);
+        w = Integer.parseInt(yearSelected) * 10000 + Integer.parseInt(monthSelected) * 100 + Integer.parseInt(daySelected);
+        if(w >= Today) {
+            title.setText(monthSelected + "月" + daySelected + "日のメニュー");//ここまで初期画面
+            plusButton.setVisibility(View.VISIBLE);
+        }
+        else {
+            title.setText(monthSelected + "月" + daySelected + "日の実績");
+            plusButton.setVisibility(View.INVISIBLE);
+            nomenu.setText(R.string.jisseki);
+        }
+        System.out.println("menu :" + Today + " " + w);
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeDialog(R.string.dialogtitle1, R.string.dialogmessage1, R.string.dialognext, R.string.dialogcancel, 1);
+                makeDialog(R.string.dialogtitle, R.string.dialogmessage, R.string.dialogtouroku, R.string.dialogcancel, 1);
             }
         });
     }

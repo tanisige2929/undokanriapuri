@@ -66,14 +66,6 @@ public class StopWatchActivity extends AppCompatActivity {
                         //makeDialog(R.string.dialogtitle1, R.string.dialogmessage2, R.string.dialognext, R.string.dialogcancel, 2);
                     }
                 });
-                /*builder.setNeutralButton(cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "キャンセルしました", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                 */
             }
         });
 

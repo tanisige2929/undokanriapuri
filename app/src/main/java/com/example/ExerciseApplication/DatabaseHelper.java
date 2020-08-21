@@ -15,10 +15,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*StringBuilder sb2=  new StringBuilder() ;
-        sb2.append("DROP TABLE ExerciseMenu");
-        String s = sb2.toString();
-        db.execSQL(s);*/
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE ExerciseMenu (");
         sb.append("_id INTEGER PRIMARY KEY AUTOINCREMENT,");

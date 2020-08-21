@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".CalendarDisplayFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calendarmessage"
+        android:textSize="25sp" />
+
     <!-- TODO: Update blank fragment layout -->
     <androidx.viewpager.widget.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"

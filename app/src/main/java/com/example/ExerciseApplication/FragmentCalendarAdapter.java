@@ -15,7 +15,6 @@ public class FragmentCalendarAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        //System.out.println("i:" + i);
         return new CalendarFragment(context, i);
     }
 

@@ -78,7 +78,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Calendarfunction cl;
+        Calendarfunction cf;
         TextView calendarTitle;
         TextView[] textcl = new TextView[42];
 
@@ -94,8 +94,8 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             //intent[i] = new Intent()
         }
         calendarTitle = (TextView)view.findViewById(R.id.calendartitle);
-        cl = new Calendarfunction(page, context);//二重処理？後で直す
-        yearmonth = cl.CalendarSet(textcl, calendarTitle);//ここまでカレンダー生成
+        cf = new Calendarfunction(page, context);//二重処理？後で直す
+        yearmonth = cf.CalendarSet(textcl, calendarTitle);//ここまでカレンダー生成
         yearmonthfirst = yearmonth;
         //CreateDayFragment(textcl);
         int i;
@@ -105,55 +105,21 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             tw = textcl[i];
             textcl[i].setOnClickListener(this);
             System.out.println("空白" + i + "text" + textcl[i].getText());
-            /*textcl[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    textcl[i].setBackgroundColor(Color.GRAY);
-                    Intent intent = new Intent(getActivity(), CalendarDayActivity.class);
-                    intent.putExtra("key", monthday);
-                    startActivity(intent);
-                }
-            });*/
         }
         return view;
     }
-    /*public void CreateDayFragment(TextView[] text) {
-        for(int i = 0; i < text.length; i++) {
-            text[i].setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Fragment DayFragment;
-                    FragmentManager fragmentManager = getFragmentManager();
-                    if(fragmentManager != null) {
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        //fragmentTransaction.replace(R.id.CalendarFragment, );
-                        fragmentTransaction.commit();
-                    }
-                }
-            });
-        }
-    }*/
     public void onClick(View view) {
         String day = "";
         yearmonth = yearmonthfirst;
         TextView t = (TextView)view;
-        /*if(view == tw) {
-            t = tw;
-        }*/
-        //TextView t = (TextView)view;
         day = t.getText().toString();
-        //t.setBackgroundColor(Color.GRAY);
         AlphaAnimation anime = new AlphaAnimation(0, 2);
         anime.setDuration(200);
         t.startAnimation(anime);
-        //t.setBackgroundColor(Color.WHITE);
-        //CharSequence dayText = t.getText();
-        //int day = Integer.parseInt(s);
         if(day.length() == 1) day = "0" + day;
         yearmonth += day;
         Intent intent = new Intent(getActivity(), CalendarDayActivity.class);
         intent.putExtra("key", yearmonth);
-        //intent.putExtra("color", t);
         startActivity(intent);
-        //view.setBackgroundColor(Color.WHITE);
     }
 }
