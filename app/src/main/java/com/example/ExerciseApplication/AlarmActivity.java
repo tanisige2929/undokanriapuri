@@ -95,7 +95,6 @@ public class AlarmActivity extends AppCompatActivity {
                 timer.setVisibility(View.VISIBLE);
 
 
-
                 hourvalue = pickerhour.getValue();
                 minutevalue = pickerminute.getValue();
                 secondvalue = pickersecond.getValue();
@@ -144,6 +143,7 @@ public class AlarmActivity extends AppCompatActivity {
         timerNow = false;
         if(countdown != null) {
             countdown.cancel();
+            countdown = null;
         }
     }
     class CountDown extends CountDownTimer {

@@ -1,6 +1,7 @@
 package com.example.ExerciseApplication;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -65,7 +66,7 @@ public class TimerFragment extends Fragment {
         ImageButton stopwatch = view.findViewById(R.id.stopwatchbutton);
         ImageButton alarm = view.findViewById(R.id.alarmbuttton);
         ImageButton interval = view.findViewById(R.id.intervalButton);
-
+        ImageButton walking = view.findViewById(R.id.walkingButton);
         stopwatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +85,13 @@ public class TimerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), IntervalActivity.class);
+                startActivity(intent);
+            }
+        });
+        walking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WalkingActivity.class);
                 startActivity(intent);
             }
         });

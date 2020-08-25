@@ -39,6 +39,7 @@
     <string name="stopWatch">ストップ\nウォッチ</string>
     <string name="alarm">アラーム</string>
     <string name="interval">インターバル</string>
+    <string name="manppkei">万歩計</string>
     <string name="countdownCancel">キャンセル</string>
     <string name="countdownStart">スタート</string>
     <string name="countdownReset">リセット</string>

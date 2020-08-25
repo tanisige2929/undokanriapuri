@@ -188,6 +188,7 @@ public class IntervalActivity extends AppCompatActivity {
         timerNow = false;
         if(countdown != null) {
             countdown.cancel();
+            countdown = null;
         }
     }
     class CountDown extends CountDownTimer {
