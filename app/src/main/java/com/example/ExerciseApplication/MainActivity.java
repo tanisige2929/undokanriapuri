@@ -7,9 +7,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean keikokuflag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) { //画面生成時
         super.onCreate(savedInstanceState);

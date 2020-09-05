@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">運動管理アプリ</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="calendar_YearMonth">%1$d年%2$d月</string>
     <string name="start">スタート</string>
     <string name="stop">ストップ</string>
@@ -11,7 +10,7 @@
     <string name="completemenu">完了したメニュー</string>
     <string name="calendarmenu">●月●日のメニュー</string>
     <string name="calendarmessage">日付を選択してください</string>
-    <string name="dialogtitle">運動メニューの登録</string>
+    <string name="dialogtitle1">運動メニューの登録</string>
     <string name="dialogmessage">各項目を入力してください</string>
     <string name="dialogtitle2">運動メニューの削除</string>
     <string name="dialogmessage2">選択したメニューを削除しますか？</string>
@@ -35,6 +34,7 @@
     <string name="unit6">km</string>
     <string name="hensyu">編集</string>
     <string name="sakujo">削除</string>
+    <string name="jissekitouroku">実績の登録</string>
     <string name="timerselect">タイマーを選択してください</string>
     <string name="stopWatch">ストップ\nウォッチ</string>
     <string name="alarm">アラーム</string>
@@ -60,4 +60,6 @@
     <string name="minute">分</string>
     <string name="second">秒</string>
     <string name="hour">時間</string>
+    <string name="credit">効果音源:OtoLogic https://otologic.jp/</string>
+    <string name="intervaltyuui">時間が不適切です</string>
 </resources>

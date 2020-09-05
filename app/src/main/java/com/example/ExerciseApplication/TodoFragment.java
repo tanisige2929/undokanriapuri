@@ -5,9 +5,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -26,10 +32,6 @@ public class TodoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    public TodoFragment() {
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -63,13 +65,22 @@ public class TodoFragment extends Fragment {
         //todo機能
         View view = inflater.inflate(R.layout.fragment_todo, container, false);
         final ListView listViewue = (ListView)view.findViewById(R.id.todaymenulist);
-        ListView listViewsita = (ListView)view.findViewById(R.id.todaycompletemenulist);
+        final ListView listViewsita = (ListView)view.findViewById(R.id.todaycompletemenulist);
         final TodoFunction todaymenu = new TodoFunction(getActivity(), listViewue, listViewsita);
         todaymenu.todoDatabase(1, -1);
         //listViewue.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listViewue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right);
+                animation.setDuration(50);
+                listViewue.getChildAt(position).startAnimation(animation);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        listViewue.remove();
+                    }
+                }), animation.getDuration();*/
                 todaymenu.todoDatabase(2, position);
                 todaymenu.adapterChange(parent.getItemAtPosition(position).toString());
                 //System.out.println(parent.getItemAtPosition(position).toString());
@@ -79,4 +90,5 @@ public class TodoFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
 }

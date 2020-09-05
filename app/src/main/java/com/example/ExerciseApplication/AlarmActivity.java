@@ -1,14 +1,14 @@
 package com.example.ExerciseApplication;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
+
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -18,7 +18,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.net.URI;
 
 import static android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI;
 
@@ -41,7 +40,7 @@ public class AlarmActivity extends AppCompatActivity {
     private TextView hourText;
     private long count = 0, period = 10;
     private TextView timerText;
-    private boolean timerNow = false, calenderfirst = false;
+    private TextView tyuui;
     private int countflag = -1;
     private Handler handler;
     private Button start;
@@ -50,8 +49,11 @@ public class AlarmActivity extends AppCompatActivity {
     private int minutevalue;
     private int secondvalue;
     private CountDown countdown;
-    private MediaPlayer player;
     private Context context = this;
+    private SoundPool soundPool;
+    private boolean soundflag = true;
+    private int soundId;
+    private int streamId;
 
 
     @Override
@@ -60,15 +62,18 @@ public class AlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm);
         start = findViewById(R.id.countdownstart);
         reset = findViewById(R.id.countdownreset);
+        start.setClickable(false);
+        reset.setClickable(false);
+        tyuui = findViewById(R.id.keikoku);
+        tyuui.setVisibility(View.INVISIBLE);
         timer = findViewById(R.id.Timer);
+        timerText = findViewById(R.id.alarmtitle);
         minuteText = findViewById(R.id.minute);
         secondText = findViewById(R.id.second);
         hourText = findViewById(R.id.hour);
         pickerminute = findViewById(R.id.numberpickerminute);
         pickersecond = findViewById(R.id.numberpickersecond);
         pickerhour = findViewById(R.id.numberpickerhour);
-
-        //am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         pickerminute.setMinValue(0);
         pickerminute.setMaxValue(59);
@@ -81,66 +86,73 @@ public class AlarmActivity extends AppCompatActivity {
         pickersecond.setDisplayedValues(minuteandsecond);
         pickerhour.setDisplayedValues(hour);
 
-
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+        soundId = soundPool.load(this, R.raw.clockalarm, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                start.setClickable(true);
+                reset.setClickable(true);
+            }
+        });
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickerminute.setVisibility(View.INVISIBLE);
-                pickersecond.setVisibility(View.INVISIBLE);
-                pickerhour.setVisibility(View.INVISIBLE);
-                minuteText.setVisibility(View.INVISIBLE);
-                secondText.setVisibility(View.INVISIBLE);
-                hourText.setVisibility(View.INVISIBLE);
-                timer.setVisibility(View.VISIBLE);
-
-
+                soundflag = true;
                 hourvalue = pickerhour.getValue();
                 minutevalue = pickerminute.getValue();
                 secondvalue = pickersecond.getValue();
                 count = (hourvalue * 3600 + minutevalue * 60 + secondvalue) * 1000;
-                player = new MediaPlayer();
-                try {
-                    player.setAudioStreamType(AudioManager.STREAM_ALARM);
-                    player.setDataSource(context, DEFAULT_ALARM_ALERT_URI);
+                if(count == 0) {
+                    tyuui.setVisibility(View.VISIBLE);
                 }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if(!timerNow) {
+                else {
+                    pickerminute.setVisibility(View.INVISIBLE);
+                    pickersecond.setVisibility(View.INVISIBLE);
+                    pickerhour.setVisibility(View.INVISIBLE);
+                    minuteText.setVisibility(View.INVISIBLE);
+                    secondText.setVisibility(View.INVISIBLE);
+                    hourText.setVisibility(View.INVISIBLE);
+                    timerText.setVisibility(View.INVISIBLE);
+                    timer.setVisibility(View.VISIBLE);
                     startTimer(start);
                 }
-
             }
         });
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                start.setClickable(true);
+                tyuui.setVisibility(View.INVISIBLE);
                 pickerminute.setVisibility(View.VISIBLE);
                 pickersecond.setVisibility(View.VISIBLE);
                 pickerhour.setVisibility(View.VISIBLE);
                 minuteText.setVisibility(View.VISIBLE);
                 secondText.setVisibility(View.VISIBLE);
                 hourText.setVisibility(View.VISIBLE);
+                timerText.setVisibility(View.VISIBLE);
                 timer.setVisibility(View.INVISIBLE);
-
+                if(soundPool != null) {
+                    if (!soundflag) {
+                        soundPool.stop(streamId);
+                        soundflag = true;
+                    }
+                }
                 resetTimer(reset);
-                player.stop();
             }
         });
-        //picker.setDisplayedValues();
-
-
-        //am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMilis(), pendingintent);
     }
     private void startTimer(Button button) { //タイマースタート
-        timerNow = true;
+        start.setClickable(false);
         countdown = new CountDown(count, period);
         countdown.start();
     }
     private void resetTimer(Button button) {
-        timerNow = false;
+        start.setClickable(true);
         if(countdown != null) {
             countdown.cancel();
             countdown = null;
@@ -151,7 +163,6 @@ public class AlarmActivity extends AppCompatActivity {
         CountDown(long count, long period) {
             super(count, period);
         }
-
         @Override
         public void onTick(long millisUntilFinished) {
             long h =  millisUntilFinished / 1000 / 3600;
@@ -163,16 +174,24 @@ public class AlarmActivity extends AppCompatActivity {
         @Override
         public void onFinish() {
             countdown.cancel();
-            timerNow = false;
             timer.setText("00:00:00");
-            try {
-                player.prepare();
-                player.start();
+            if(soundflag) {
+                streamId =  soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1);
+                soundflag = false;
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if(soundPool != null) {
+            if (!soundflag) {
+                soundPool.stop(streamId);
+                soundflag = true;
+            }
+        }
+        if(countdown != null) {
+            countdown.cancel();
+        }
+        finish();
     }
 }

@@ -8,7 +8,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -44,9 +46,12 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
     private boolean up = false;
     private boolean first = true;
     private CountDown countdown;
-    private MediaPlayer player;
-    private boolean timerNow = false, countflag = false;;
     private long count = 0, period = 10;
+    private SoundPool soundPool;
+    private int soundId;
+    private int streamId;
+    private boolean soundflag = true;
+    private TextView tyuui;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,8 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         timer = findViewById(R.id.countdown);
         start = findViewById(R.id.countdownstart);
         reset = findViewById(R.id.countdownreset);
+        tyuui = findViewById(R.id.keikoku);
+        tyuui.setVisibility(View.INVISIBLE);
         pickerhour = findViewById(R.id.numberpickerhour);
         pickerminute = findViewById(R.id.numberpickerminute);
         hourText = findViewById(R.id.hour);
@@ -67,35 +74,61 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         pickerminute.setMaxValue(59);
         pickerhour.setDisplayedValues(hour);
         pickerminute.setDisplayedValues(minute);
+
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();
+        soundPool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(1).build();
+        soundId = soundPool.load(this, R.raw.clockalarm, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                start.setClickable(true);
+                reset.setClickable(true);
+            }
+        });
+        onPause();
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hosuu.setVisibility(View.VISIBLE);
-                timer.setVisibility(View.VISIBLE);
-                pickerhour.setVisibility(View.INVISIBLE);
-                pickerminute.setVisibility(View.INVISIBLE);
-                hourText.setVisibility(View.INVISIBLE);
-                minuteText.setVisibility(View.INVISIBLE);
                 hourvalue = pickerhour.getValue();
                 minutevalue = pickerminute.getValue();
                 count = (hourvalue * 3600 + minutevalue * 60) * 1000;
-                startTimer(start);
+                if(count == 0) {
+                    tyuui.setVisibility(View.VISIBLE);
+                }
+                else {
+                    hosuu.setVisibility(View.VISIBLE);
+                    timer.setVisibility(View.VISIBLE);
+                    pickerhour.setVisibility(View.INVISIBLE);
+                    pickerminute.setVisibility(View.INVISIBLE);
+                    hourText.setVisibility(View.INVISIBLE);
+                    minuteText.setVisibility(View.INVISIBLE);
+                    tyuui.setVisibility(View.INVISIBLE);
+                    onStart();
+                    startTimer(start);
+                }
             }
         });
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start.setClickable(true);
+                tyuui.setVisibility(View.INVISIBLE);
                 hosuu.setVisibility(View.INVISIBLE);
                 timer.setVisibility(View.INVISIBLE);
                 pickerhour.setVisibility(View.VISIBLE);
                 pickerminute.setVisibility(View.VISIBLE);
                 hourText.setVisibility(View.VISIBLE);
                 minuteText.setVisibility(View.VISIBLE);
-                if(countdown != null) {
-                    countdown.cancel();
-                    countdown = null;
+                if(soundPool != null) {
+                    if (!soundflag) {
+                        soundPool.stop(streamId);
+                        soundflag = true;
+                    }
                 }
+                resetTimer(reset);
                 onPause();
             }
         });
@@ -148,41 +181,26 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
 
     }
 
-    private void showInfo(float x, float y, float z, float sum) {
+    /*private void showInfo(float x, float y, float z, float sum) {
         StringBuffer info = new StringBuffer("values: ");
         info.append("sensoerX:" + x + " ");
         info.append("sensoerY:" + y + " ");
         info.append("sensoerZ:" + z + " ");
         info.append("sum:" + sum);
         System.out.println(info);
-    }
+    }*/
     private void startTimer(Button button) { //タイマースタート
         start.setClickable(false);
-        countflag = false;
-        timerNow = true;
-        countdown = new CountDown(4000, period, true);
+        countdown = new CountDown(count, period, true);
         timer.setTextColor(Color.BLACK);
         countdown.start();
     }
     private void resetTimer(Button button) {
-        timerNow = false;
+        start.setClickable(true);
         if(countdown != null) {
             countdown.cancel();
         }
-        count = 0;private void startTimer(Button button) { //タイマースタート
-            start.setClickable(false);
-            countflag = false;
-            timerNow = true;
-            countdown = new CountDown(4000, period, true);
-            timer.setTextColor(Color.BLACK);
-            countdown.start();
-        }
-        private void resetTimer(Button button) {
-            timerNow = false;
-            if(countdown != null) {
-                countdown.cancel();
-            }
-        }
+        count = 0;
     }
 
     class CountDown extends CountDownTimer {
@@ -197,43 +215,31 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
             long h =  millisUntilFinished / 1000 / 3600;
             long m = millisUntilFinished / 1000 / 60 % 60;
             long s = millisUntilFinished / 1000 % 60;
-            if(countflag) {
-                timer.setText(String.format("%1$02d:%2$02d:%3$02d", h, m, s));
-            }
-            else if(startflag){
-                if(s >= 1) {
-                    timer.setText(String.format("%1$d", s));
-                }
-                else if(startflag && s < 1){
-                    timer.setText("スタート");
-                }
-                else if(s == 0) {
-                    startflag = false;
-                }
-            }
+            timer.setText(String.format("%1$02d:%2$02d:%3$02d", h, m, s));
         }
 
         @Override
         public void onFinish() {
             countdown.cancel();
             timer.setTextColor(Color.BLACK);
-            if(!countflag) {
-                countflag = true;
-                countdown = new CountDown(count, period, false);
-                countdown.start();
+            if(soundflag) {
+                streamId =  soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1);
+                soundflag = false;
             }
-            else {
-                countflag = false;
-                /*try {
-                    player.prepare();
-                    player.start();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }*/
-                timerNow = false;
-            }
+            onPause();
         }
     }
-
+    @Override
+    public void onBackPressed() {
+        if(soundPool != null) {
+            if (!soundflag) {
+                soundPool.stop(streamId);
+                soundflag = true;
+            }
+        }
+        if(countdown != null) {
+            countdown.cancel();
+        }
+        finish();
+    }
 }

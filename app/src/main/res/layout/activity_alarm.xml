@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".AlarmActivity">
 
+    <TextView
+        android:id="@+id/keikoku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="85dp"
+        android:text="@string/intervaltyuui"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="invisible" />
+
     <Button
         android:id="@+id/countdownstart"
         android:layout_width="140dp"

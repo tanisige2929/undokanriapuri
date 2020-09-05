@@ -2,16 +2,23 @@ package com.example.ExerciseApplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,12 +43,15 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     private String yearmonth = "";
     private String yearmonthfirst;
     private TextView tw;
+    private Calendarfunction cf;
+    private TextView t;
+    private int position = 0;
+    private TextView[] textcl = new TextView[42];
 
     public CalendarFragment(Context context, int page) {
         // Required empty public constructor
         this.context = context;
         this.page = page;
-        System.out.println("page:" + page);
     }
     public CalendarFragment() {
     }
@@ -71,55 +81,58 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Calendarfunction cf;
         TextView calendarTitle;
-        TextView[] textcl = new TextView[42];
 
-        //Intent[] intent = new Intent[42];
         View view = inflater.inflate(R.layout.fragment_calendar, null);
-        int clId;
-        //int i = 0;
+
         String calendarViewname;
         for(int i = 0; i < textcl.length; i++) {
             calendarViewname = "c" + i;
+            int clId;
             clId = getResources().getIdentifier(calendarViewname, "id", getActivity().getPackageName());
             textcl[i] = (TextView)view.findViewById(clId); //ID紐づけ
-            //intent[i] = new Intent()
         }
         calendarTitle = (TextView)view.findViewById(R.id.calendartitle);
-        cf = new Calendarfunction(page, context);//二重処理？後で直す
+        cf = new Calendarfunction(page, context);
         yearmonth = cf.CalendarSet(textcl, calendarTitle);//ここまでカレンダー生成
         yearmonthfirst = yearmonth;
-        //CreateDayFragment(textcl);
         int i;
         for(i = 0; textcl[i].getText().equals(" "); i++);
         for( ;  i < textcl.length && !(textcl[i].getText().equals(" ")); i++) {
             textcl[i].setClickable(true);
             tw = textcl[i];
             textcl[i].setOnClickListener(this);
-            System.out.println("空白" + i + "text" + textcl[i].getText());
         }
         return view;
     }
     public void onClick(View view) {
         String day = "";
         yearmonth = yearmonthfirst;
-        TextView t = (TextView)view;
+        t = (TextView)view;
         day = t.getText().toString();
         AlphaAnimation anime = new AlphaAnimation(0, 2);
         anime.setDuration(200);
         t.startAnimation(anime);
         if(day.length() == 1) day = "0" + day;
         yearmonth += day;
+        for(int i = 0; i < textcl.length; i++) {
+            if(((TextView) view).getText().equals(textcl[i].getText())) {
+                position = i;
+            }
+        }
         Intent intent = new Intent(getActivity(), CalendarDayActivity.class);
         intent.putExtra("key", yearmonth);
         startActivity(intent);
+    }
+    @Override
+    public void onResume() {
+        cf.calendareventset();
+        super.onResume();
     }
 }
