@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WalkingActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity android:name=".PeformanceActivity"></activity>
+        <activity
+            android:name=".WalkingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".IntervalActivity" />
         <activity android:name=".AlarmActivity" />
         <activity android:name=".StopWatchActivity" />

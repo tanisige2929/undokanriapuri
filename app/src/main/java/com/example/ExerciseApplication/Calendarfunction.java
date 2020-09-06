@@ -31,10 +31,14 @@ public class Calendarfunction extends AppCompatActivity {
     private SQLiteDatabase db;
     private TextView[] text;
     private int position, size;
+    private HashSet<String> eventday, pastday;
 
     Calendarfunction(int page, Context context) {
         this.context = context;
         this.page = page;
+        eventday = Database(2);
+        pastday = Database(1);
+
         calendar = Calendar.getInstance();
         yearNow = calendar.get(Calendar.YEAR);
         monthNow = calendar.get(Calendar.MONTH);
@@ -53,7 +57,7 @@ public class Calendarfunction extends AppCompatActivity {
         youbi = calendar.get(Calendar.DAY_OF_WEEK);
     }
 
-    public String CalendarSet(TextView[] text, TextView title) {
+    public String calendarSet(TextView[] text, TextView title) {
         int i;
         this.text = text;
         title.setText(year + "年" + (month + 1) + "月");
@@ -76,23 +80,20 @@ public class Calendarfunction extends AppCompatActivity {
                     text[i].setBackgroundColor(Color.YELLOW);//当日を黄色に塗る
                 }
                 else if(j < dateNow){
-                    ArrayList<DATE> arrayList1 = Database(dayString, 1);
-                    if(arrayList1.size() != 0) {
+                    if(pastday.contains(yearmonth + dayString)) {
                         text[i].setBackgroundColor(Color.parseColor("#DDDDDD"));
                     }
                 }
             }
             if(year <= yearNow && month < monthNow) {
-                ArrayList<DATE> arrayList1 = Database(dayString, 1);
-                if (arrayList1.size() != 0) {
+                if (pastday.contains(yearmonth + dayString)) {
                     text[i].setBackgroundColor(Color.parseColor("#DDDDDD"));
                 }
             }
             if(yearNow <= year && monthNow <= month) {
-                ArrayList<DATE> arrayList2 = Database(dayString, 2);
                 System.out.println("dateNow " + dateNow + "j" + j);
                 if((monthNow == month && dateNow <= j) || (monthNow < month)) {
-                    if(arrayList2.size() != 0) {
+                    if(eventday.contains(yearmonth + dayString)) {
                         text[i].setTextColor(Color.GREEN);
                     }
                 }
@@ -102,76 +103,60 @@ public class Calendarfunction extends AppCompatActivity {
         }
         return yearmonth;
     }
-    public ArrayList<DATE> Database(String day, int flag) {
+    public HashSet<String> Database(int flag) {
         helper = new DatabaseHelper(context);
         db = helper.getWritableDatabase();
-        ArrayList<DATE> arrayList = new ArrayList<>();
+        HashSet<String> hashSet = new HashSet<>();
         if(flag == 1) {
             try {
-                String sql = "SELECT date, complete FROM ExerciseMenu WHERE date = '" + yearmonth + day + "'";
+                String sql = "SELECT date FROM ExerciseMenu WHERE date like '%" + yearmonth + "%'";
                 Cursor cursor = db.rawQuery(sql, null);
                 String date;
-                int complete;
                 while (cursor.moveToNext()) {
                     int idxNote;
                     idxNote = cursor.getColumnIndex("date");
                     date = cursor.getString(idxNote);
-                    idxNote = cursor.getColumnIndex("complete");
-                    complete = cursor.getInt(idxNote);
-                    DATE d = new DATE(date, complete);
-                    arrayList.add(d);
+                    hashSet.add(date);
                 }
             }
             finally {
                 db.close();
             }
-            return arrayList;
+            return hashSet;
         }
         else {
             try {
-                String sql = "SELECT date, complete FROM ExerciseMenu WHERE date = '" + yearmonth + day + "' AND complete = -1";
+                String sql = "SELECT date FROM ExerciseMenu WHERE date like '%" + yearmonth + "%' AND complete = -1";
                 System.out.println(yearmonth + day);
                 Cursor cursor = db.rawQuery(sql, null);
                 String date;
-                int complete;
                 while (cursor.moveToNext()) {
                     int idxNote;
                     idxNote = cursor.getColumnIndex("date");
                     date = cursor.getString(idxNote);
-                    idxNote = cursor.getColumnIndex("complete");
-                    complete = cursor.getInt(idxNote);
-                    DATE d = new DATE(date, complete);
-                    arrayList.add(d);
+                    hashSet.add(date);
                 }
             }
             finally {
                 db.close();
             }
-            return arrayList;
+            return hashSet;
         }
     }
     public void calendareventset() {
+        eventday = Database(2);
         int j = 1;
         for(int i = position; j < size; i++) {
             dayString = "" + j;
             if(dayString.length() == 1) dayString = "0" + dayString;
             if(yearNow <= year && monthNow <= month) {
-                ArrayList<DATE> arrayList2 = Database(dayString, 2);
                 if((monthNow == month && dateNow <= j) || (monthNow < month)) {
-                    if(arrayList2.size() != 0) {
+                    if(eventday.contains(yearmonth + dayString)) {
                         text[i].setTextColor(Color.GREEN);
                     }
                 }
             }
             j++;
         }
-    }
-}
-class DATE {
-    private String date;
-    private int complete;
-    DATE(String date, int complete) {
-        this.date = date;
-        this.complete = complete;
     }
 }

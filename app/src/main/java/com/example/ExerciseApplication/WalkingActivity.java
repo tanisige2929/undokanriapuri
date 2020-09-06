@@ -3,6 +3,9 @@ package com.example.ExerciseApplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,6 +22,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class WalkingActivity extends AppCompatActivity implements SensorEventListener{
 
@@ -51,12 +55,32 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
     private int soundId;
     private int streamId;
     private boolean soundflag = true;
+    private boolean countup = false;
     private TextView tyuui;
+    private DatabaseHelper helper;
+    private SQLiteDatabase db;
+    private Calendar calendar;
+    private int year;
+    private int month;
+    private int day;
+    private String date, w;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walking);
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DATE);
+        date = "" + year + "-";
+        w = "" + month;
+        if(w.length() == 1) w = "0" + w;
+        date += w + "-";
+        w = "" + day;
+        if(w.length() == 1) w = "0" + w;
+        date += w;
+
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         hosuu = findViewById(R.id.hosuu);
         timer = findViewById(R.id.countdown);
@@ -92,6 +116,7 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                countup = true;
                 hourvalue = pickerhour.getValue();
                 minutevalue = pickerminute.getValue();
                 count = (hourvalue * 3600 + minutevalue * 60) * 1000;
@@ -114,6 +139,7 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                countup = false;
                 start.setClickable(true);
                 tyuui.setVisibility(View.INVISIBLE);
                 hosuu.setVisibility(View.INVISIBLE);
@@ -122,6 +148,7 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
                 pickerminute.setVisibility(View.VISIBLE);
                 hourText.setVisibility(View.VISIBLE);
                 minuteText.setVisibility(View.VISIBLE);
+                countHosuu = 0;
                 if(soundPool != null) {
                     if (!soundflag) {
                         soundPool.stop(streamId);
@@ -154,9 +181,7 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         sensorX = event.values[0];
         sensorY = event.values[1];
         sensorZ = event.values[2];
-        //System.out.println(sensorX);
         sum = (float)Math.sqrt(Math.pow(sensorX, 2) + Math.pow(sensorY, 2) + Math.pow(sensorZ, 2));
-        System.out.println(sum);
         if(first) {
             first = false;
             up = true;
@@ -166,7 +191,9 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
             degree = a + sum + (1 - a) * degreeFirst;
             if(up && degree < degreeFirst) {
                 up = false;
-                countHosuu++;
+                if(countup) {
+                    countHosuu++;
+                }
             }
             else if(!up && degree > degreeFirst) {
                 up = true;
@@ -178,17 +205,8 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 
-    /*private void showInfo(float x, float y, float z, float sum) {
-        StringBuffer info = new StringBuffer("values: ");
-        info.append("sensoerX:" + x + " ");
-        info.append("sensoerY:" + y + " ");
-        info.append("sensoerZ:" + z + " ");
-        info.append("sum:" + sum);
-        System.out.println(info);
-    }*/
     private void startTimer(Button button) { //タイマースタート
         start.setClickable(false);
         countdown = new CountDown(count, period, true);
@@ -221,12 +239,31 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         @Override
         public void onFinish() {
             countdown.cancel();
+            countup = false;
             timer.setTextColor(Color.BLACK);
             if(soundflag) {
                 streamId =  soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1);
                 soundflag = false;
             }
+            if(countHosuu != 0) Database();
             onPause();
+        }
+    }
+    public void Database() {
+        helper = new DatabaseHelper(WalkingActivity.this);
+        db = helper.getWritableDatabase();
+        try {
+            String sqlInsert = "INSERT INTO Exercisemenu (date, menu, value, unit, complete) VALUES (?, ?, ?, ?, ?)";
+            SQLiteStatement stmt = db.compileStatement(sqlInsert);
+            stmt.bindString(1, date);
+            stmt.bindString(2, "歩数");
+            stmt.bindString(3, "" + countHosuu);
+            stmt.bindString(4, "歩");
+            stmt.bindLong(5, 1);
+            stmt.executeInsert();
+        }
+        finally {
+            db.close();
         }
     }
     @Override
@@ -240,6 +277,7 @@ public class WalkingActivity extends AppCompatActivity implements SensorEventLis
         if(countdown != null) {
             countdown.cancel();
         }
+        if(countHosuu != 0) Database();
         finish();
     }
 }

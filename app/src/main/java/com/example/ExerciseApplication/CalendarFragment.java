@@ -2,6 +2,7 @@ package com.example.ExerciseApplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -47,6 +48,9 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     private TextView t;
     private int position = 0;
     private TextView[] textcl = new TextView[42];
+    private TextView calendarTitle;
+    private ColorStateList[] oldColor = new ColorStateList[3];
+    private boolean click = false;
 
     public CalendarFragment(Context context, int page) {
         // Required empty public constructor
@@ -87,8 +91,6 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        TextView calendarTitle;
-
         View view = inflater.inflate(R.layout.fragment_calendar, null);
 
         String calendarViewname;
@@ -98,9 +100,12 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
             clId = getResources().getIdentifier(calendarViewname, "id", getActivity().getPackageName());
             textcl[i] = (TextView)view.findViewById(clId); //ID紐づけ
         }
+        oldColor[0] = textcl[0].getTextColors();
+        oldColor[1] = textcl[1].getTextColors();
+        oldColor[2] = textcl[6].getTextColors();
         calendarTitle = (TextView)view.findViewById(R.id.calendartitle);
         cf = new Calendarfunction(page, context);
-        yearmonth = cf.CalendarSet(textcl, calendarTitle);//ここまでカレンダー生成
+        yearmonth = cf.calendarSet(textcl, calendarTitle);//ここまでカレンダー生成
         yearmonthfirst = yearmonth;
         int i;
         for(i = 0; textcl[i].getText().equals(" "); i++);
@@ -124,6 +129,7 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
         for(int i = 0; i < textcl.length; i++) {
             if(((TextView) view).getText().equals(textcl[i].getText())) {
                 position = i;
+                click = true;
             }
         }
         Intent intent = new Intent(getActivity(), CalendarDayActivity.class);
@@ -132,6 +138,20 @@ public class CalendarFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onResume() {
+        //cf.calendarSet(textcl, calendarTitle);
+        if(click) {
+            if(position % 7 == 0) {
+                textcl[position].setTextColor(oldColor[0]);
+            }
+            else if(position % 7 == 6) {
+                textcl[position].setTextColor(oldColor[2]);
+            }
+            else  {
+                textcl[position].setTextColor(oldColor[1]);
+            }
+            click = false;
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaa" + textcl[position].getText());
+        }
         cf.calendareventset();
         super.onResume();
     }

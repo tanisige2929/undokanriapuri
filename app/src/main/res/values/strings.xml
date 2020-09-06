@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">運動管理アプリ</string>
-    <string name="calendar_YearMonth">%1$d年%2$d月</string>
     <string name="start">スタート</string>
     <string name="stop">ストップ</string>
     <string name="reset">リセット</string>
@@ -24,7 +23,8 @@
         <item>回</item>
         <item>秒</item>
         <item>分</item>
-        <item>㍍(m)</item>
+        <item>m(㍍)</item>
+        <item>km(㌖)</item>
     </string-array>
     <string name="unit1">回</string>
     <string name="unit2">秒</string>
@@ -62,4 +62,24 @@
     <string name="hour">時間</string>
     <string name="credit">効果音源:OtoLogic https://otologic.jp/</string>
     <string name="intervaltyuui">時間が不適切です</string>
+    <string name="jissekimenu">実績</string>
+    <string name="jissekimessage">過去の実績を閲覧できます</string>
+    <string name="jissekinen">年</string>
+    <string name="jissekituki">月</string>
+    <string name="kensaku">検索</string>
+    <string-array name="tuki">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string name="jissekikeikoku">実績が存在しません</string>
 </resources>

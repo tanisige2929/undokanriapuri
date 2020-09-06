@@ -31,36 +31,14 @@ public class StopWatchActivity extends AppCompatActivity {
     private TimerCountTask timercount;
     private long count = 0, delay = 0, period = 10;
     private TextView timerText;
-    private boolean timerNow = true, calenderfirst = false;
+    private boolean timerNow = true;
     private int countflag = -1;
     private Handler handler;
-    private AlertDialog alertDialog;
-    private String menuname = "";
-    private String menuvalue = "";
-    private String menuunit = "";
-    private boolean keikokuflag = false;
-    private Calendar calendar;
-    private int yearNow;
-    private int monthNow;
-    private int dateNow;
-    private String Day = "";
-    private String w;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_watch);
-        calendar = Calendar.getInstance();
-        yearNow = calendar.get(Calendar.YEAR);
-        monthNow = calendar.get(Calendar.MONTH);
-        dateNow = calendar.get(Calendar.DATE);
-        Day += yearNow + "-";
-        w = "" + monthNow;
-        if(w.length() == 1) w = "0" + w ;
-        Day += w + "-";
-        w = "" + dateNow;
-        if(w.length() == 1) w = "0" + w;
-        Day += w;
         timerText = findViewById(R.id.swcount);
         System.out.println(timerText.getText());
         Button start_stop = findViewById(R.id.swstartorstop);
@@ -113,8 +91,6 @@ public class StopWatchActivity extends AppCompatActivity {
             count = 0;
         }
         timerText.setText(String.format(Locale.US, countfirst));
-        //timerText.invalidate();
-        System.out.println(timerText.getText());
         timerNow = true;
     }
 
@@ -138,74 +114,6 @@ public class StopWatchActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
-    }
-   @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-       MenuInflater inflater = getMenuInflater();
-       inflater.inflate(R.menu.menu_options, menu);
-       return super.onCreateOptionsMenu(menu);
-   }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        makeDialog(R.string.dialogtitle1, R.string.dialogmessage, R.string.dialogok, R.string.dialogcancel);
-        return super.onOptionsItemSelected(item);
-    }
-    public void makeDialog(int title, int message, int ok, int cancel) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(StopWatchActivity.this);
-        LayoutInflater layoutInflater = LayoutInflater.from(StopWatchActivity.this);
-        final View inputView = layoutInflater.inflate(R.layout.calendarmenudialog, null);
-        final EditText editText1 = inputView.findViewById(R.id.input1);
-        final EditText editText2 = inputView.findViewById(R.id.input2);
-        final Spinner spinner = inputView.findViewById(R.id.spinner);
-        TextView keikoku = inputView.findViewById(R.id.keikoku);
-        if (keikokuflag) {
-            keikoku.setVisibility(View.VISIBLE);
-            keikokuflag = false;
-        }
-        builder.setTitle(title).setView(inputView);
-        builder.setPositiveButton(ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                menuname = editText1.getText().toString();
-                menuvalue = editText2.getText().toString();
-                int idx = spinner.getSelectedItemPosition();
-                menuunit = spinner.getSelectedItem().toString();
-                if (menuname.equals("") || menuvalue.equals("")) {
-                    keikokuflag = true;
-                    makeDialog(R.string.dialogtitle1, R.string.dialogmessage, R.string.dialognext, R.string.dialogcancel);
-                } else {
-                    databaseAction();
-                    Toast.makeText(getApplicationContext(), "登録が完了しました", Toast.LENGTH_SHORT).show();
-                    alertDialog.dismiss();
-                }
-            }
-        });
-        builder.setNeutralButton(cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "キャンセルしました", Toast.LENGTH_SHORT).show();
-            }
-        });
-        alertDialog = builder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-    }
-    public void databaseAction() {
-        DatabaseHelper helper = new DatabaseHelper(StopWatchActivity.this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try {
-            String sqlInsert = "INSERT INTO Exercisemenu (date, menu, value, unit, complete) VALUES (?, ?, ?, ?, ?)";
-            SQLiteStatement stmt = db.compileStatement(sqlInsert);
-            stmt.bindString(1, Day);
-            stmt.bindString(2, menuname);
-            stmt.bindString(3, menuvalue);
-            stmt.bindString(4, menuunit);
-            stmt.bindLong(5, -1);
-            stmt.executeInsert();
-        }
-        finally {
-            db.close();
         }
     }
     @Override

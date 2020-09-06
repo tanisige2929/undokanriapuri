@@ -98,7 +98,6 @@ public class TodoFunction extends AppCompatActivity {
                     unit = cursor.getString(idxNote);
                     idList.add(id);
                     itemue.add("" + menu + " " + value + unit);
-                    System.out.println(itemue);
                 }
                 adapterue = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_single_choice, itemue) {
                     @Override
